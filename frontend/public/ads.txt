@@ -1,0 +1,5 @@
+# When AdSense is approved, replace the placeholder below with your real
+# publisher ID line. Format from Google:
+#   google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+#
+# Until then, this file just exists so /ads.txt returns 200 instead of 404.

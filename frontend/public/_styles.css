@@ -1,0 +1,66 @@
+/* Shared styles for static content pages (about/fire-prep/faq/privacy). */
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: #0e1116;
+  color: #f5f5f5;
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: #fbbf24; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.muted { color: #8b94a3; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site {
+  border-bottom: 1px solid #1c2330;
+  background: #14181f;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+header.site .flame {
+  display: inline-block;
+  width: 22px; height: 22px;
+  background: linear-gradient(0deg, #dc2626, #f97316 60%, #fde047);
+  -webkit-mask: url("/favicon.svg") center/contain no-repeat;
+  mask: url("/favicon.svg") center/contain no-repeat;
+}
+header.site h1 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 600;
+  flex: 1;
+}
+h1.page { font-size: 28px; margin: 0 0 6px; }
+h2 { font-size: 20px; margin: 28px 0 8px; }
+h3 { font-size: 16px; margin: 20px 0 6px; color: #fbbf24; }
+ul { padding-left: 22px; }
+li { margin-bottom: 6px; }
+.lede { color: #cbd5e1; font-size: 17px; margin-bottom: 24px; }
+.callout {
+  background: #14181f;
+  border: 1px solid #1c2330;
+  border-left: 3px solid #f97316;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 18px 0;
+  font-size: 14px;
+}
+.footer {
+  margin-top: 48px;
+  padding-top: 18px;
+  border-top: 1px solid #1c2330;
+  font-size: 13px;
+  color: #8b94a3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.footer a { color: #8b94a3; }
+.footer a:hover { color: #fbbf24; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+th, td { padding: 6px 10px; border-bottom: 1px solid #1c2330; text-align: left; vertical-align: top; }
+th { color: #8b94a3; font-weight: 500; }
+code { background: #14181f; padding: 1px 5px; border-radius: 3px; font-size: 13px; }

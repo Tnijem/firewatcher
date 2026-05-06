@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import AdSlot from "./components/AdSlot";
+import CookieConsent from "./components/CookieConsent";
 import FireMap from "./components/FireMap";
+import Footer from "./components/Footer";
 import StatusPanel from "./components/StatusPanel";
 import Timeline from "./components/Timeline";
 import { api, type Hotspot, type NwsAlert, type Status } from "./api";
@@ -58,6 +61,7 @@ export default function App() {
         </div>
         {err && <div className="overlay-err">⚠ {err}</div>}
       </div>
+      <AdSlot />
       <div className="timeline-wrap">
         <Timeline
           windowHours={WINDOW_HOURS}
@@ -69,7 +73,9 @@ export default function App() {
           onShowAllChange={setShowAll}
           hotspots={hotspots}
         />
+        <Footer />
       </div>
+      <CookieConsent />
     </div>
   );
 }

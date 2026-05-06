@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#dc2626" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/_styles.css" />
+  <title>About — Meredith's Firewatcher</title>
+  <meta name="description" content="What Firewatcher is, where its data comes from, and who built it." />
+</head>
+<body>
+  <header class="site">
+    <span class="flame" aria-hidden="true"></span>
+    <h1>Meredith's Firewatcher</h1>
+    <a href="/">← Dashboard</a>
+  </header>
+  <main class="wrap">
+    <h1 class="page">About</h1>
+    <p class="lede">
+      Firewatcher is a small wildfire situational-awareness dashboard for Hahira, GA and the surrounding counties — built so that a worried wife (Meredith) can look at one place and see whether anything is actually burning nearby.
+    </p>
+
+    <h2>Coverage area</h2>
+    <p>
+      The map is centered on Hahira (31.038°N, 83.369°W) and covers a roughly
+      75-mile radius — Lowndes, Brooks, Cook, Lanier, Echols, and Berrien
+      counties in Georgia, plus parts of Hamilton and Madison counties in
+      Florida. The bounding box is a little wider so satellite passes don't
+      clip useful detections at the edges.
+    </p>
+
+    <h2>Where the data comes from</h2>
+    <p>
+      All sources are public, authoritative, and free. Firewatcher does not
+      run its own sensors — it just aggregates what's already out there.
+    </p>
+    <table>
+      <tr><th>Source</th><th>What it provides</th><th>Cadence</th></tr>
+      <tr>
+        <td><a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener">NASA FIRMS</a></td>
+        <td>Satellite hot-pixel detections from VIIRS (Suomi NPP, NOAA-20, NOAA-21) and MODIS (Aqua/Terra)</td>
+        <td>Every 30 min</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.weather.gov/documentation/services-web-api" target="_blank" rel="noopener">NWS api.weather.gov</a></td>
+        <td>Red Flag Warnings, Fire Weather Watches for Lowndes (GAZ155) + neighbors</td>
+        <td>Every 15 min</td>
+      </tr>
+      <tr>
+        <td><a href="https://gatrees.org/" target="_blank" rel="noopener">GA Forestry Commission</a></td>
+        <td>County burn-ban status, daily fire activity (planned)</td>
+        <td>Hourly</td>
+      </tr>
+      <tr>
+        <td><a href="https://droughtmonitor.unl.edu/" target="_blank" rel="noopener">US Drought Monitor</a></td>
+        <td>Drought intensity (D0–D4) for Lowndes (planned)</td>
+        <td>Weekly</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.airnow.gov/" target="_blank" rel="noopener">AirNow</a></td>
+        <td>Smoke / PM2.5 air quality (planned)</td>
+        <td>Hourly</td>
+      </tr>
+    </table>
+
+    <h2>How to read the map</h2>
+    <ul>
+      <li>Each colored dot is a satellite hot-pixel detection. Color is recency (red = fresh, fading toward grey at 4+ days). Size is energy output.</li>
+      <li>The dashed circles are alert tiers: red = 25 mi (urgent), orange = 50 mi (notification), grey = 75 mi (display only).</li>
+      <li>The orange bars under the timeline are an activity histogram. Tap one to jump to that moment, or hit ▶ for radar-style replay.</li>
+      <li>Click any dot for a detailed readout — what kind of fire, how big, how confident the satellite is, and how far from home.</li>
+    </ul>
+
+    <div class="callout">
+      <b>Important:</b> A satellite hot-pixel is <em>not</em> proof of an
+      uncontrolled wildfire. Burn piles, controlled prescribed burns,
+      industrial flares, and even sun glint off metal roofs can trigger
+      detections. Always check local sources (911 dispatch, Lowndes EMA,
+      WALB) before assuming an emergency.
+    </div>
+
+    <h2>Open source</h2>
+    <p>
+      The code is MIT-licensed on <a href="https://github.com/Tnijem/firewatcher" target="_blank" rel="noopener">GitHub</a>.
+      Configurations for the home point, alert radii, and zones live in <code>.env</code>;
+      anyone can run their own copy for their own town.
+    </p>
+
+    <div class="footer">
+      <a href="/">Dashboard</a> ·
+      <a href="/about.html">About</a> ·
+      <a href="/fire-prep.html">Fire Prep</a> ·
+      <a href="/faq.html">FAQ</a> ·
+      <a href="/privacy.html">Privacy</a> ·
+      <a href="https://github.com/Tnijem/firewatcher" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </main>
+</body>
+</html>

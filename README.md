@@ -84,6 +84,29 @@ npm run dev
 
 See [`.env.example`](./.env.example). At minimum you need a free [NASA FIRMS map key](https://firms.modaps.eosdis.nasa.gov/api/map_key/). Twilio + email credentials only required if you enable alerts.
 
+## Monetization (Google AdSense)
+
+The app supports a single optional ad slot above the timeline plus four
+content pages (About, Fire Prep, FAQ, Privacy) intended to satisfy
+AdSense's "real content" requirement during site review.
+
+To enable ads after AdSense approval:
+
+1. Sign up at [adsense.google.com](https://adsense.google.com/) and submit `https://fires.nijemtech.com` for review.
+2. Once approved, copy your **publisher ID** (looks like `ca-pub-1234567890123456`) and **ad-unit slot ID**.
+3. On the VPS, append to `/opt/firewatcher/.env`:
+   ```
+   VITE_ADSENSE_PUBLISHER_ID=ca-pub-XXXXXXXXXXXXXXXX
+   VITE_ADSENSE_AD_SLOT=XXXXXXXXXX
+   ```
+4. Rebuild the frontend so the values bake into the bundle:
+   ```
+   cd /opt/firewatcher/frontend && npm run build
+   ```
+5. Replace `frontend/public/ads.txt` with the line Google gives you (e.g. `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`) and rebuild.
+
+If the env vars aren't set, the AdSense script doesn't load and the ad slot renders nothing — useful while review is pending.
+
 ## License
 
 MIT

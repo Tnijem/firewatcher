@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#dc2626" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/_styles.css" />
+  <title>FAQ — Meredith's Firewatcher</title>
+  <meta name="description" content="Frequently asked questions about satellite fire detections, what they mean, and how to interpret them." />
+</head>
+<body>
+  <header class="site">
+    <span class="flame" aria-hidden="true"></span>
+    <h1>Meredith's Firewatcher</h1>
+    <a href="/">← Dashboard</a>
+  </header>
+  <main class="wrap">
+    <h1 class="page">FAQ</h1>
+
+    <h2>Is a satellite hotspot the same as a wildfire?</h2>
+    <p>
+      No. A "hotspot" is a single ~375 m or ~1 km pixel that the satellite
+      thinks is anomalously hot for that location. Most hotspots in the
+      Southeast are controlled burns, burn piles, agricultural field
+      fires, or industrial heat sources — not wildfires. A small minority
+      are real uncontrolled fires.
+    </p>
+
+    <h2>How do you tell the difference?</h2>
+    <p>
+      You can't, with satellite data alone — that's what the local fire
+      department is for. What you <em>can</em> do is look at the cluster
+      pattern, the time of day, and the energy output:
+    </p>
+    <ul>
+      <li><b>Single pixel, low FRP (under 5 MW), middle of the day, daytime confidence "n":</b> probably a burn pile or small controlled burn.</li>
+      <li><b>Cluster of detections that grow over consecutive satellite passes, FRP rising:</b> something is actually getting bigger — worth checking local news.</li>
+      <li><b>Same exact lat/lon every time, persistent:</b> almost certainly an industrial heat source (a flare stack, a steel mill, an asphalt plant).</li>
+    </ul>
+
+    <h2>Why are some fires from a few days ago still showing?</h2>
+    <p>
+      The "Trail" dropdown on the timeline controls how many recent hours
+      of detections are visible at any moment. Switch to "5 d" or check
+      "Show all" to see the full 5-day history. Older detections fade
+      from red → orange → yellow → grey so you can tell freshness at a
+      glance.
+    </p>
+
+    <h2>What's "FRP" and why does it matter?</h2>
+    <p>
+      Fire Radiative Power, in megawatts. It's how much heat energy the
+      satellite measures coming off the hot pixel during that observation.
+      It's the best proxy for "how big is this thing" because pixel
+      temperature can saturate (i.e., a really hot fire and a moderately
+      hot fire can look the same in the brightness reading).
+    </p>
+    <ul>
+      <li>&lt; 5 MW: small heat source — burn pile, industrial flare</li>
+      <li>5–20 MW: small ground fire</li>
+      <li>20–100 MW: moderate active fire</li>
+      <li>100+ MW: large/intense fire — watch this one</li>
+    </ul>
+
+    <h2>What does "Confidence: Nominal" mean?</h2>
+    <p>
+      VIIRS classifies detections as <b>Low / Nominal / High</b>. MODIS
+      uses a percentage 0–100. This is the algorithm's own assessment of
+      whether the hotspot is "real" or could be a false positive (sun
+      glint, coastline thermal contrast, cloud edge, etc). Nominal means
+      "likely real, but not certain."
+    </p>
+
+    <h2>How quickly does the dashboard update?</h2>
+    <ul>
+      <li>NASA FIRMS: every 30 minutes (and the satellites themselves only pass overhead a few times a day, so detections lag the actual fire start by hours).</li>
+      <li>NWS Red Flag Warnings / Fire Weather Watches: every 15 minutes.</li>
+      <li>The page itself reloads its data every 60 seconds — no refresh needed.</li>
+    </ul>
+
+    <h2>Will it tell me if my house is on fire?</h2>
+    <p>
+      <b>No.</b> Satellite hotspot data lags real-time by hours. For
+      anything actually happening near you, call 911 and trust your local
+      fire department's CodeRED notifications.
+    </p>
+
+    <h2>Can I get alerts?</h2>
+    <p>
+      Alerting (SMS + email) is on the roadmap and will fire when a
+      detection lands within 25 mi of Hahira, or when a Red Flag Warning
+      is issued for the local NWS zone.
+    </p>
+
+    <h2>Why was the timeline empty when I first opened it?</h2>
+    <p>
+      If you're checking right after a long quiet period (winter, post-rain),
+      there may genuinely be no recent detections in the area. That's
+      good — go enjoy your day.
+    </p>
+
+    <div class="footer">
+      <a href="/">Dashboard</a> ·
+      <a href="/about.html">About</a> ·
+      <a href="/fire-prep.html">Fire Prep</a> ·
+      <a href="/faq.html">FAQ</a> ·
+      <a href="/privacy.html">Privacy</a>
+    </div>
+  </main>
+</body>
+</html>
