@@ -2,6 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl, { Map as MlMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Hotspot, Status } from "../api";
+import {
+  bearingDeg,
+  brightnessLabel,
+  compass,
+  confidenceLabel,
+  relTimeFromNow,
+  severityFromFrp,
+  sourceLabel,
+} from "../utils/format";
 
 type Props = {
   hotspots: Hotspot[];
@@ -24,6 +33,12 @@ function radiusFor(frp: number | null): number {
   if (frp > 20) return 9;
   if (frp > 5) return 6;
   return 4;
+}
+
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] as string
+  ));
 }
 
 export default function FireMap({ hotspots, status }: Props) {
@@ -102,14 +117,32 @@ export default function FireMap({ hotspots, status }: Props) {
         box-shadow:0 0 6px ${ageColor(ageHours)}aa;
         cursor:pointer;
       `;
-      const popup = new maplibregl.Popup({ offset: r + 4 }).setHTML(`
-        <div style="font:12px system-ui">
-          <b>${h.source}</b><br/>
-          ${new Date(h.acq_datetime).toLocaleString()}<br/>
-          ${h.distance_mi.toFixed(1)} mi from ${status?.home.label ?? "home"}<br/>
-          ${h.brightness ? `brightness: ${h.brightness.toFixed(1)} K<br/>` : ""}
-          ${h.frp != null ? `FRP: ${h.frp.toFixed(1)} MW<br/>` : ""}
-          confidence: ${h.confidence ?? "—"}
+      const sev = severityFromFrp(h.frp);
+      const home = status?.home;
+      const dir = home ? compass(bearingDeg(home.lat, home.lon, h.latitude, h.longitude)) : "";
+      const homeLabel = home?.label ?? "home";
+      const popup = new maplibregl.Popup({ offset: r + 4, maxWidth: "280px" }).setHTML(`
+        <div class="hs-popup">
+          <div class="hs-popup-head" style="color:${sev.color}">
+            ${sev.emoji} ${escapeHtml(sev.label)}
+          </div>
+          <div class="hs-popup-blurb">${escapeHtml(sev.blurb)}</div>
+          <div class="hs-popup-where">
+            <b>${h.distance_mi.toFixed(1)} mi</b> ${dir} of ${escapeHtml(homeLabel)}
+          </div>
+          <div class="hs-popup-when">
+            ${escapeHtml(new Date(h.acq_datetime).toLocaleString())}
+            <span class="muted">· ${escapeHtml(relTimeFromNow(h.acq_datetime))}</span>
+          </div>
+          <dl class="hs-popup-stats">
+            <dt title="Energy radiated by the hot pixel — best proxy for fire size.">Heat output (FRP)</dt>
+            <dd>${h.frp != null ? h.frp.toFixed(1) + " MW" : "—"}</dd>
+            <dt title="Temperature of the hot pixel. Background land is ~290–310 K.">Pixel temperature</dt>
+            <dd>${escapeHtml(brightnessLabel(h.brightness))}</dd>
+            <dt title="How sure the satellite is this is real fire vs. a false positive.">Confidence</dt>
+            <dd>${escapeHtml(confidenceLabel(h.confidence, h.source))}</dd>
+          </dl>
+          <div class="hs-popup-source muted">${escapeHtml(sourceLabel(h.source))}</div>
         </div>
       `);
       const m = new maplibregl.Marker({ element: el })
