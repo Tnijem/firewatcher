@@ -1,0 +1,18 @@
+[Unit]
+Description=Firewatcher API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/firewatcher/backend
+EnvironmentFile=/opt/firewatcher/.env
+ExecStart=/opt/firewatcher/backend/.venv/bin/uvicorn app.main:app \
+    --host 127.0.0.1 --port 8003 --proxy-headers
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
