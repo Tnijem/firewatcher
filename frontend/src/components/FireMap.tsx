@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import maplibregl, { Map as MlMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Hotspot, Status } from "../api";
@@ -30,6 +30,7 @@ export default function FireMap({ hotspots, status }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
+  const [ready, setReady] = useState(false);
 
   // Init map once.
   useEffect(() => {
@@ -46,6 +47,7 @@ export default function FireMap({ hotspots, status }: Props) {
     map.addControl(new maplibregl.NavigationControl(), "top-right");
     map.addControl(new maplibregl.ScaleControl({ unit: "imperial" }), "bottom-left");
     map.on("load", () => {
+      setReady(true);
       // Draw radius circles around home as a GeoJSON source + 3 line layers.
       const radii = status?.radii ?? { urgent: 25, email: 50, dashboard: 75 };
       const features = [
@@ -81,10 +83,10 @@ export default function FireMap({ hotspots, status }: Props) {
     mapRef.current = map;
   }, [status]);
 
-  // Render hotspot markers whenever the filtered set changes.
+  // Render hotspot markers whenever the filtered set changes (and the map is ready).
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !map.isStyleLoaded()) return;
+    if (!map || !ready) return;
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
 
@@ -116,7 +118,7 @@ export default function FireMap({ hotspots, status }: Props) {
         .addTo(map);
       markersRef.current.push(m);
     }
-  }, [hotspots, status]);
+  }, [hotspots, status, ready]);
 
   return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
 }
