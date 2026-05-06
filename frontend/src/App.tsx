@@ -13,6 +13,7 @@ export default function App() {
   const [alerts, setAlerts] = useState<NwsAlert[]>([]);
   const [hoursBack, setHoursBack] = useState(0);
   const [trailHours, setTrailHours] = useState(24);
+  const [showAll, setShowAll] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function App() {
   }, []);
 
   const visible = useMemo(() => {
+    if (showAll) return hotspots;
     const now = Date.now();
     const endMs = now - hoursBack * 3_600_000;
     const startMs = endMs - trailHours * 3_600_000;
@@ -45,7 +47,7 @@ export default function App() {
       const t = new Date(h.acq_datetime).getTime();
       return t >= startMs && t <= endMs;
     });
-  }, [hotspots, hoursBack, trailHours]);
+  }, [hotspots, hoursBack, trailHours, showAll]);
 
   return (
     <div className="app">
@@ -63,6 +65,9 @@ export default function App() {
           onChange={setHoursBack}
           trailHours={trailHours}
           onTrailChange={setTrailHours}
+          showAll={showAll}
+          onShowAllChange={setShowAll}
+          hotspots={hotspots}
         />
       </div>
     </div>

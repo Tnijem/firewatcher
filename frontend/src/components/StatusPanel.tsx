@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { NwsAlert, Status } from "../api";
 
 export default function StatusPanel({
@@ -9,14 +10,24 @@ export default function StatusPanel({
   alerts: NwsAlert[];
   visibleCount: number;
 }) {
+  const [collapsed, setCollapsed] = useState(false);
   if (!status) return <div className="panel">Loading…</div>;
   const closeCount = status.hotspots_24h_within_urgent;
   const overall = closeCount > 0 ? "alert" : alerts.length > 0 ? "warn" : "ok";
   return (
-    <div className={`panel panel-${overall}`}>
-      <div className="panel-title">
-        <span className="dot" /> Firewatcher — {status.home.label}
+    <div className={`panel panel-${overall} ${collapsed ? "panel-collapsed" : ""}`}>
+      <div
+        className="panel-title"
+        onClick={() => setCollapsed((c) => !c)}
+        role="button"
+        tabIndex={0}
+      >
+        <span className="dot" />
+        <span className="panel-title-text">Firewatcher — {status.home.label}</span>
+        <span className="panel-toggle">{collapsed ? "▾" : "▴"}</span>
       </div>
+      {!collapsed && <>
+
       <div className="panel-grid">
         <Stat label={`Hotspots within ${status.radii.urgent} mi (24h)`} value={closeCount} hl={closeCount > 0} />
         <Stat label="Hotspots in coverage area (24h)" value={status.hotspots_24h} />
@@ -38,6 +49,7 @@ export default function StatusPanel({
           ? new Date(status.latest_hotspot_at).toLocaleString()
           : "none yet"}
       </div>
+      </>}
     </div>
   );
 }
