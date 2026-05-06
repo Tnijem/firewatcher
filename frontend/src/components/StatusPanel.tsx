@@ -23,7 +23,7 @@ export default function StatusPanel({
         tabIndex={0}
       >
         <span className="dot" />
-        <span className="panel-title-text">Firewatcher — {status.home.label}</span>
+        <span className="panel-title-text">Meredith's Firewatcher — {status.home.label}</span>
         <span className="panel-toggle">{collapsed ? "▾" : "▴"}</span>
       </div>
       {!collapsed && <>
