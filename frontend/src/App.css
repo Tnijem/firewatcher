@@ -11,7 +11,7 @@
 }
 
 * { box-sizing: border-box; }
-html, body, #root { height: 100%; margin: 0; }
+html, body, #root { height: 100%; margin: 0; overscroll-behavior: none; }
 body {
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   background: var(--bg);
@@ -19,7 +19,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.app { display: flex; flex-direction: column; height: 100vh; }
+.app {
+  display: flex;
+  flex-direction: column;
+  /* Fallback for browsers that lack dvh; iOS Safari < 15.4 */
+  height: 100vh;
+  /* Dynamic viewport height — shrinks when iOS URL bar is visible so the
+     timeline at the bottom stays on-screen in portrait. */
+  height: 100dvh;
+}
 .map-wrap { position: relative; flex: 1; min-height: 0; }
 .timeline-wrap {
   background: var(--panel);
